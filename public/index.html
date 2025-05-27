@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vintage Stereo VU Meter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- anime.js for ultra‑light transforms -->
+    <script src="./assets/js/libs/anime.min.js"></script>
+
+    <link rel="stylesheet" href="./assets/css/fonts.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/media.css">
+</head>
+
+<body>
+
+<div class="wrapper">
+    <!-- Left channel meter skeleton -->
+    <div class="meters">
+        <div class="meter" id="meterL">
+            <div class="channel">LEFT</div>
+            <div class="ticks" id="ticksL"></div>
+            <div class="needle" id="needleL"></div>
+            <div class="cap"></div>
+            <div class="glass"></div>
+            <div class="status" id="statusL">--&nbsp;dB</div>
+        </div>
+
+        <!-- Right channel -->
+        <div class="meter" id="meterR">
+            <div class="channel">RIGHT</div>
+            <div class="ticks" id="ticksR"></div>
+            <div class="needle" id="needleR"></div>
+            <div class="cap"></div>
+            <div class="glass"></div>
+            <div class="status" id="statusR">--&nbsp;dB</div>
+        </div>
+    </div>
+
+    <!-- Single global gain control -->
+    <div class="controls">Gain&nbsp;
+        <input id="gainSlider" type="range" min="0.5" max="10" step="0.1" value="2">
+        <span id="gainVal">&nbsp;x2.0</span>
+    </div>
+
+    <!-- <button id="playBtn" class="paused" title="Play / Pause"></button> -->
+
+    <div class="logo">
+        catdeveloper.com
+    </div>
+
+    <!-- permission modal -->
+<!--    <div class="modal" id="micModal">-->
+<!--        <div class="modal-box">-->
+<!--            <h2>Need access to audio</h2>-->
+<!--            <p>Мы запрашиваем звук микрофона, чтобы стрелки VU‑метра могли реагировать на звук вашего микрофона в-->
+<!--                реальном-->
+<!--                времени. <br>Данные никуда не отправляются — всё остаётся в&nbsp;вашем браузере.</p>-->
+<!--            <button id="modalOk">OK</button>-->
+<!--            <button id="modalCancel">Отмена</button>-->
+<!--        </div>-->
+<!--    </div>-->
+</div>
+
+<script src="./assets/js/script.js"></script>
+
+</body>
+
+</html>
