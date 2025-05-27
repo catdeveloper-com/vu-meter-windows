@@ -157,48 +157,6 @@ body {
     font-family: 'Roboto Mono', monospace;
 }
 
-/* global gain slider */
-.controls {
-    display: none;
-    position: absolute;
-    left: 50%;
-    bottom: 22px;
-    transform: translateX(-50%);
-    color: #ddd;
-    font-family: 'Roboto Mono', monospace;
-    font-size: .8rem;
-    text-align: center;
-    user-select: none;
-}
-
-.controls input {
-    width: 220px;
-    margin: 0 .5rem;
-}
-
-#playBtn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 46px;
-    height: 46px;
-    border: none;
-    border-radius: 50%;
-    background: var(--frame);
-    color: #faf8f2;
-    font-size: 20px;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .4);
-}
-
-#playBtn.paused::before {
-    content: '▶';
-}
-
-#playBtn.running::before {
-    content: '⏸';
-}
-
 /* logo */
 .logo {
     position: absolute;

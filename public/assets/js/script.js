@@ -56,50 +56,11 @@ const statuses = {
  3. GAIN SLIDER (global)
  ***************************************************/
 let gain = 2;
-const gainSlider = document.getElementById('gainSlider');
-const gainVal = document.getElementById('gainVal');
-gainSlider.addEventListener('input', e => {
-    gain = parseFloat(e.target.value);
-    gainVal.textContent = ' x' + gain.toFixed(1);
-});
 
 /***************************************************
  4. AUDIO SET‑UP & LOOP
  ***************************************************/
 let audioCtx, analyserL, analyserR;
-
-async function setupAudio() {
-    try {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        let stream;
-        // Try capture system audio (Chrome) else fall back to mic
-        try {
-            stream = await navigator.mediaDevices.getDisplayMedia({audio: true, video: false});
-        } catch (_) {
-            stream = await navigator.mediaDevices.getUserMedia({
-                audio: {
-                    echoCancellation: false,
-                    noiseSuppression: false,
-                    channelCount: 2
-                }
-            });
-        }
-
-        const source = audioCtx.createMediaStreamSource(stream);
-        const splitter = audioCtx.createChannelSplitter(2);
-        source.connect(splitter);
-
-        analyserL = audioCtx.createAnalyser();
-        analyserR = audioCtx.createAnalyser();
-        analyserL.fftSize = analyserR.fftSize = 2048;
-        splitter.connect(analyserL, 0);
-        splitter.connect(analyserR, 1);
-
-        loop();
-    } catch (err) {
-        alert('Audio error: ' + err.message);
-    }
-}
 
 function getRMS(analyser) {
     const data = new Uint8Array(analyser.fftSize);
@@ -179,7 +140,7 @@ function loop() {
 }
 
 /***************************************************
- 6. MAIN LOOP & AUDIO INIT
+ 7. MAIN LOOP & AUDIO INIT
  ***************************************************/
 
 (async function initAudio() {
