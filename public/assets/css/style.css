@@ -45,6 +45,11 @@ body {
     box-shadow: 0 0 30px rgba(0, 0, 0, .6);
 }
 
+#root {
+    transform-origin: center center;
+    transition: transform 0.1s ease-out;
+}
+
 /******************************
     VU&nbsp;meter box — mix of both files
 ******************************/
@@ -94,6 +99,14 @@ body {
     height: 22px
 }
 
+.tick.hot {
+    background: #b53027;    /* или var(--needle) */
+}
+.label.hot-label {
+    color: #b53027;
+    font-weight: bold;      /* по желанию */
+}
+
 .label {
     position: absolute;
     left: -11px;
@@ -116,6 +129,17 @@ body {
     transform-origin: 50% 100%;
     transform: translateX(-50%) rotate(-45deg);
     filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, .7));
+    z-index: 2;
+}
+
+.VU {
+    position: absolute;
+    left: 50%;
+    bottom: 20%;
+    transform: translateX(-50%);
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    z-index: 1;
 }
 
 .cap {
@@ -149,6 +173,7 @@ body {
 }
 
 .status {
+    /*display: none;*/
     position: absolute;
     right: 12px;
     bottom: 10px;

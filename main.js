@@ -33,7 +33,9 @@ app.whenReady().then(() => {
         backgroundColor: '#262421',
         webPreferences: {
             contextIsolation: true,
-            nodeIntegration: false
+            nodeIntegration: false,
+            backgroundThrottling: false,
+            devTools: false
         }
     });
     win.setMenuBarVisibility(false);
