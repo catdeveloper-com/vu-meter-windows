@@ -67,7 +67,7 @@ const statuses = {
 const KNOB_CFG = {
     gainMin:      1.0,    // минимальное усиление
     gainMax:      7.0,    // максимальное усиление
-    defaultGain:  2.5,    // хотим начать с 2.5×
+    defaultGain:  2.0,    // хотим начать с 2.5×
     angleMin:    -135,    // угол (°) для gainMin
     angleMax:     135,    // угол (°) для gainMax
     sensitivity:   0.8    // «чувствительность» (градусы на пиксель ΔY)

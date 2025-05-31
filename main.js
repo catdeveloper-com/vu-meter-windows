@@ -35,7 +35,7 @@ app.whenReady().then(() => {
             contextIsolation: true,
             nodeIntegration: false,
             backgroundThrottling: false,
-            devTools: true
+            devTools: false
         }
     });
     win.setMenuBarVisibility(false);
