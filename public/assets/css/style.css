@@ -34,14 +34,16 @@ body {
 /* translucent «black glass» wrapper around two meters */
 .wrapper {
     position: relative;
-    padding: 3rem 4rem 6rem;
+    padding: 3rem 4rem 3rem;
     border-radius: 1rem;
     /* background: rgba(0, 0, 0, .35); */
     /* background: rgba(0, 0, 0, .77); */
     background: rgba(0, 0, 0, .85);
     backdrop-filter: blur(1.5px);
     display: flex;
-    gap: 4rem;
+    flex-direction: column;
+    align-items: center;
+    /*gap: 4rem;*/
     box-shadow: 0 0 30px rgba(0, 0, 0, .6);
 }
 
@@ -186,12 +188,103 @@ body {
 .logo {
     position: absolute;
     left: 50%;
-    bottom: 22px;
+    bottom: 15px;
     transform: translateX(-50%);
     color: #ddd;
     font-family: 'Abel', monospace;
     text-transform: uppercase;
     font-size: 1.1rem;
     text-align: center;
+    user-select: none;
+    margin-top: 15px;
+}
+
+/********************************
+  Knob (крутилка) и её дисплей
+********************************/
+
+/* Контейнер, в котором лежит крутилка и дисплей */
+.knob-container {
+    /*position: absolute;*/
+    /*bottom: 22px;              !* чуть ниже логотипа *!*/
+    /*right: 20px;               !* справа внизу, при необходимости поправьте *!*/
+    width: 80px;               /* ширина контейнера (ширина Knob) */
+    text-align: center;
+    user-select: none;         /* чтобы текст/шайба не выделялись */
+}
+
+#gain-label {
+    color: #ddd;
+    font-family: 'Roboto Mono', monospace;
+    font-size: .9rem;
+}
+
+.knob-container {
+    margin-top: 10px;
+}
+
+/* Собственно «шайба» — круг, который будем вращать */
+#knob {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;            /* по центру контейнера */
+    background: #3b3a36;       /* цвет обода */
+    border-radius: 50%;        /* круг */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+    cursor: grab;
+    transform: rotate(0deg);   /* стартовый угол rotation = 0 */
+    transition: box-shadow 0.15s ease;
+}
+
+/* Втулка в центре шайбы (как «ось») */
+#knob::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: #f6b137;       /* ярче */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: inset 0 0 2px rgba(0,0,0,0.5);
+}
+
+/* При наведении шайба чуть «подсвечивается» */
+#knob:hover {
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.8),
+    0 3px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* Когда удерживаем мышкой, меняем курсор */
+#knob:active {
+    cursor: grabbing;
+}
+
+/* =========================
+   Насечки (notches) вокруг Knob
+   ========================= */
+#knob .notch {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 2px;
+    height: 8px;
+    background: var(--tick);
+    transform-origin: calc(50% - 1px) calc(50% - 4px);
+}
+
+/* Мини-экранчик под шайбой, отображает текущее значение gain */
+#gain-display {
+    margin-top: 6px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.9rem;
+    color: #ddd;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    padding: 2px 4px;
+    display: inline-block;
     user-select: none;
 }

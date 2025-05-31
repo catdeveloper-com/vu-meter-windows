@@ -62,9 +62,94 @@ const statuses = {
 };
 
 /***************************************************
- 3. GAIN SLIDER (global)
+ 3. ПЕРЕНОС GAIN ЛОГИКИ НА KNOB с конфигом
  ***************************************************/
-let gain = 2;
+const KNOB_CFG = {
+    gainMin:      1.0,    // минимальное усиление
+    gainMax:      7.0,    // максимальное усиление
+    defaultGain:  2.5,    // хотим начать с 2.5×
+    angleMin:    -135,    // угол (°) для gainMin
+    angleMax:     135,    // угол (°) для gainMax
+    sensitivity:   0.8    // «чувствительность» (градусы на пиксель ΔY)
+};
+
+// Инициализируем gain из дефолта
+let gain = KNOB_CFG.defaultGain;
+
+const knobEl       = document.getElementById('knob');
+const gainDisplay  = document.getElementById('gain-display');
+
+function gainToAngle(g) {
+    const t = (g - KNOB_CFG.gainMin) / (KNOB_CFG.gainMax - KNOB_CFG.gainMin);
+    return KNOB_CFG.angleMin + (KNOB_CFG.angleMax - KNOB_CFG.angleMin) * t;
+}
+function angleToGain(angle) {
+    const t = (angle - KNOB_CFG.angleMin) / (KNOB_CFG.angleMax - KNOB_CFG.angleMin);
+    return KNOB_CFG.gainMin + (KNOB_CFG.gainMax - KNOB_CFG.gainMin) * t;
+}
+
+knobEl.style.transform = `rotate(${gainToAngle(gain)}deg)`;
+gainDisplay.textContent = `×${gain.toFixed(1)}`;
+
+// 3.1. Сгенерируем насечки (notches) ровно по окружности Knob
+const notchCount = 24;
+// Полный размер шайбы (knob) — 60×60px, центр в (30,30), хотим
+// поместить ночки на радиус ~26px (чтобы они доходили до края шайбы).
+const knobRadius = 32;           // половина ширины/высоты #knob
+const notchHalfHeight = 8 / 2;   // половина высоты ночки = 4px
+const notchRadius = knobRadius - notchHalfHeight; // ≈ 26px
+
+// Устанавливаем Knob в нужный начальный угол:
+knobEl.style.transform = `rotate(${gainToAngle(gain)}deg)`;
+// И сразу показываем на дисплее:
+gainDisplay.textContent = `×${gain.toFixed(1)}`;
+
+for (let i = 0; i < notchCount; i++) {
+    const notch = document.createElement('div');
+    notch.className = 'notch';
+    // Угол каждой ночки вокруг центра шайбы
+    const angle = (360 / notchCount) * i;
+    // Сначала поворачиваем notch на этот угол, затем смещаем вверх (по локальной Y) на notchRadius.
+    // Порядок: rotate(angle) → translateY(-notchRadius)
+    notch.style.transform = `rotate(${angle}deg) translateY(-${notchRadius}px)`;
+    knobEl.appendChild(notch);
+}
+
+let isDragging  = false;
+let startY      = 0;
+let startAngle  = 0;
+
+knobEl.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    isDragging = true;
+    startY      = e.clientY;
+    const style  = window.getComputedStyle(knobEl);
+    const tr     = style.getPropertyValue('transform');
+    const values = tr.split('(')[1].split(')')[0].split(',');
+    const a = parseFloat(values[0]);
+    const b = parseFloat(values[1]);
+    startAngle = Math.atan2(b, a) * (180 / Math.PI);
+    document.body.style.cursor = 'grabbing';
+});
+
+window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const delta = startY - e.clientY;
+    let newAngle = startAngle + delta * KNOB_CFG.sensitivity;
+    if (newAngle < KNOB_CFG.angleMin) newAngle = KNOB_CFG.angleMin;
+    if (newAngle > KNOB_CFG.angleMax) newAngle = KNOB_CFG.angleMax;
+    knobEl.style.transform = `rotate(${newAngle}deg)`;
+
+    gain = angleToGain(newAngle);
+    gainDisplay.textContent = `×${gain.toFixed(1)}`;
+});
+
+window.addEventListener('mouseup', () => {
+    if (isDragging) {
+        isDragging = false;
+        document.body.style.cursor = 'default';
+    }
+});
 
 /***************************************************
  4. AUDIO SET‑UP & LOOP

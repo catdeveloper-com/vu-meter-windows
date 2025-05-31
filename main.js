@@ -29,13 +29,13 @@ app.whenReady().then(() => {
         width: 900,
         height: 550,
         minWidth: 320,    // минимальная ширина
-        minHeight: 500,
+        minHeight: 615,
         backgroundColor: '#262421',
         webPreferences: {
             contextIsolation: true,
             nodeIntegration: false,
             backgroundThrottling: false,
-            devTools: false
+            devTools: true
         }
     });
     win.setMenuBarVisibility(false);
